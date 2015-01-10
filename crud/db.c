@@ -32,7 +32,7 @@ int createDb(){
 
    /* Create SQL statement */
    sql = "CREATE TABLE IF NOT EXISTS COMPANY("  \
-         "ID INT PRIMARY KEY   AUTOINCREMENT  NOT NULL," \
+         "ID INTEGER PRIMARY KEY   AUTOINCREMENT  NOT NULL," \
          "NAME           TEXT    NOT NULL," \
          "AGE            INT     NOT NULL," \
          "ADDRESS        CHAR(50)," \
@@ -41,7 +41,7 @@ int createDb(){
    /* Execute SQL statement */
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
    if( rc != SQLITE_OK ){
-   fprintf(stderr, "SQL error: %s\n", zErrMsg);
+   fprintf(stderr, "SQL error [Create] : %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }else{
       fprintf(stdout, "Table created successfully\n");
@@ -67,19 +67,17 @@ int insertEmp(emp_model *emp){
    }
 
    /* Create SQL statement */
-   sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
-         "VALUES (%s, %d, %s, %s);";
+   sql = "INSERT INTO COMPANY (NAME,AGE,ADDRESS,SALARY) "  \
+         "VALUES ('%s', %d, '%s', %g);";
 
    sql = varconcat(sql,emp->ename,emp->eage,emp->addrss,emp->salary);
 
    printf("%s\n", sql);
 
-   return;
-
-   /* Execute SQL statement */
+  /* Execute SQL statement */
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
    if( rc != SQLITE_OK ){
-      fprintf(stderr, "SQL error: %s\n", zErrMsg);
+      fprintf(stderr, "SQL error [Insert] : %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }else{
       fprintf(stdout, "Records created successfully\n");
